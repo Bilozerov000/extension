@@ -51,26 +51,20 @@
   },
   "scripts": {
     "watch": "npm run clean && npm-run-all --parallel watch:editor watch:extesion",
-
     "dev:web": "npm run clean && npm-run-all --parallel watch:editor watch:extesion run:web",
     "run:web": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=.",
-
     "vscode:prepublish": "npm run package",
-
     "compile": "npm run clean && npm-run-all --parallel compile:editor compile:extesion",
     "compile:extesion": "webpack --config ./webpack/extension.config.js",
     "compile:editor": "webpack --config ./webpack/editor.config.js",
-
     "watch:extesion": "webpack --mode development --watch --config ./webpack/extension.config.js",
     "watch:editor": "webpack --mode development --watch --config ./webpack/editor.config.js",
-    
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "package": "npm run clean && npm-run-all package:editor package:extension",
+    "package:extension": "webpack --mode production --devtool hidden-source-map --config ./webpack/extension.config.js",
+    "package:editor": "webpack --mode production --devtool hidden-source-map --config ./webpack/editor.config.js",
+    "pretest": "npm run lint && npm run compile",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
-    "test": "vscode-test",
     "clean": "rimraf dist"
   },
   "devDependencies": {

@@ -6,27 +6,7 @@ import {
   WebviewPanel,
   Uri,
 } from "vscode";
-import { EDITOR_OUTPUT_FILE, LOCAL_SERVER_URL } from "./utils/constants";
-
-export function activate(context: ExtensionContext) {
-  const disposable = commands.registerCommand("embedd.start", () => {
-    const panel = window.createWebviewPanel(
-      "embedd",
-      "Embedd",
-      ViewColumn.One,
-      {
-        enableScripts: true,
-      }
-    );
-
-    panel.webview.html = getHtmlTemplate(context, panel);
-  });
-
-  context.subscriptions.push(disposable);
-}
-
-// This method is called when your extension is deactivated
-export function deactivate() {}
+import { EDITOR_OUTPUT_FILE } from "./utils/constants";
 
 function getHtmlTemplate(context: ExtensionContext, panel: WebviewPanel) {
   const codiconsUri = panel.webview.asWebviewUri(
@@ -60,3 +40,23 @@ function getHtmlTemplate(context: ExtensionContext, panel: WebviewPanel) {
   </html>
 `;
 }
+
+export function activate(context: ExtensionContext) {
+  const disposable = commands.registerCommand("embedd.start", () => {
+    const panel = window.createWebviewPanel(
+      "embedd",
+      "Embedd",
+      ViewColumn.One,
+      {
+        enableScripts: true,
+      }
+    );
+
+    panel.webview.html = getHtmlTemplate(context, panel);
+  });
+
+  context.subscriptions.push(disposable);
+}
+
+// This method is called when your extension is deactivated
+export function deactivate() {}
